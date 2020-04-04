@@ -1,2 +1,2 @@
 # Something Awesome Project
-# Password Manager
+## Password Manager
