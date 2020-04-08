@@ -4,6 +4,8 @@ Created 3/4/2020
 
 Some docs for reference
 https://pycryptodome.readthedocs.io/en/latest/src/examples.html
+
+NOTE: Change line 210 of /hash/CMAC.py file partial --> bytes()
 '''
 import hashlib
 from datetime import datetime
@@ -12,19 +14,19 @@ from Crypto.Random import get_random_bytes
 
 
 class Encrypt():
-    # passFileKeylen = saltlen = 16. Increase to increase complexity
+    # saltlen = 16. Increase to increase complexity
     # iterations = 100000. Increase iterations to slow attacks
-    def __init__(self, saltlen=16, passFileKeylen=16, iterations=100000):
+    def __init__(self, saltlen=16,iterations=100000):
         self._saltlen = saltlen
-        self._passFileKeylen = passFileKeylen
         self._iterations = iterations
+
 
     # Encrypts important user information.
     # The key (fileKey) used to encrypt the password file, is encrypted here
     # The user's password is used to generate a key to help encrypt the fileKey
     def encrypt_user_info(self, username, password, fileKey):
         salt = get_random_bytes(self._saltlen)
-        derivedKey, authKey = derive_key_pass(password,salt)
+        derivedKey, authKey = self.derive_key_pass(password,salt)
 
         # Encrypt fileKey, with derivedKey and initialisation vector
         IV = get_random_bytes(16)

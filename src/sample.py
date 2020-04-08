@@ -4,8 +4,6 @@ It was used to learn how to use the encryption/decryption module
 https://pycryptodome.readthedocs.io/en/latest/src/examples.html
 '''
 
-
-
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 

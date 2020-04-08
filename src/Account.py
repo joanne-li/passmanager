@@ -1,14 +1,16 @@
 '''
+Add, edit, modify user information and details
 
 Created 4/4/2020
 @author: joanne-li
 '''
-from Encrypt import Encrypt as enc
+from Encrypt import Encrypt
 from Crypto.Random import get_random_bytes
 
 class Account():
     def __init__(self, username):
         self._username = username
+        self._enc = Encrypt()
 
     # Create a new user account
     def create_account(self, masterpassword):
@@ -19,24 +21,24 @@ class Account():
                 f.write('Password invalid value' + datetime.today())
                 print('Password invalid value')
         # Unencrypted state; key to encrypt passfile
-        fileKey = get_random_bytes(self._passFileKeylen)
-        enc.encrypt_user_info(self._username, password, fileKey)
+        fileKey = get_random_bytes(16)
+        self._enc.encrypt_user_info(self._username, password, fileKey)
         del fileKey # Make sure to delete this unencrypted key!
 
 
     def change_master_pass(self, oldMaster, newMaster):
         # Decrypt passwordFileKey
-        dkey, authkey = derive_key_pass(oldMaster, get_salt())
-        passwordFileKey = decrypt_ciphertext(dkey, get_obsc_key(), get_IV(), get_tag())
+        dkey, authkey = self._enc.derive_key_pass(oldMaster, self._enc.get_salt())
+        passwordFileKey = self._enc.decrypt_ciphertext(dkey, self._enc.get_obsc_key(), self._enc.get_IV(), self._enc.get_tag())
 
         # Encypt passwordFileKey with newMaster
-        enc.encrypt_user_info(self._username, newMaster, passwordFileKey)
+        self._enc.encrypt_user_info(self._username, newMaster, passwordFileKey)
         del passwordFileKey
 
     # Verify login attempt or verify password to change master password
     def verify_login(self, password):
-        derivedKey, authKey = enc.derive_key_pass(password, get_salt())
-        return authKey == enc.get_authKey()
+        derivedKey, authKey = self._enc.derive_key_pass(password, self._enc.get_salt())
+        return authKey == self._enc.get_authKey()
 
     # Add account to passfile (dictionary type)
     # username = account username, not the password manager username
