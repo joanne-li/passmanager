@@ -8,6 +8,7 @@ https://pycryptodome.readthedocs.io/en/latest/src/examples.html
 NOTE: Change line 210 of /hash/CMAC.py file partial --> bytes()
 '''
 import hashlib
+import json
 from datetime import datetime
 from Crypto.Cipher import AES # https://pycryptodome.readthedocs.io/en/latest/src/cipher/aes.html
 from Crypto.Random import get_random_bytes
@@ -47,6 +48,7 @@ class Encrypt():
         data = cipherObj.decrypt_and_verify(ciphertext, tag)
         return data
 
+
     # Derives two keys from given password and salt
     # derivedKey = key used to encrypt password file key
     # authKey = key used to verify password has been inputted correctly
@@ -60,6 +62,22 @@ class Encrypt():
 
         return (derivedKey, authKey)
 
+    # Get passfile
+    def decrypt_passfile(self, masterpassword):
+        dkey, authkey = derive_key_pass(oldMaster, get_salt())
+        if authKey == get_authKey():
+            passwordFileKey = decrypt_ciphertext(dkey, get_obsc_key(), get_IV(), get_tag())
+            decryptedPassFile = decrypt_ciphertext(passwordFileKey, get_passfile(), get_IV(), get_tag())
+            return passfile_dict(decryptedPassFile)
+
+    def passfile_dict(self, passString):
+        return json.loads(passString)
+
+    def get_passfile(self):
+        with open('passfile.bin', 'rb') as passFile:
+            passFile = storedCred.read()
+        return passFile
+
     # Get the salt associated with the user's master password
     def get_salt(self):
         with open('stored_cred.bin', 'rb') as storedCred:
@@ -68,7 +86,7 @@ class Encrypt():
 
     def get_IV(self):
         with open('stored_cred.bin', 'rb') as storedCred:
-            storedCred.seek(16, 1) # Start reading after 32th byte
+            storedCred.seek(16, 1) # Start reading after 16th byte
             authKey = storedCred.read(16)
         return authKey
 
@@ -76,12 +94,18 @@ class Encrypt():
     # Used to authorise the user into system. Password input checked against this
     def get_authKey(self):
         with open('stored_cred.bin', 'rb') as storedCred:
-            storedCred.seek(32, 1) # Start reading after 32th byte
+            storedCred.seek(32, 1) # Start reading after 32nd byte
+            authKey = storedCred.read(16)
+        return authKey
+
+    def get_obsc_key(self):
+        with open('stored_cred.bin', 'rb') as storedCred:
+            storedCred.seek(48, 1) # Start reading after 32nd byte
             authKey = storedCred.read(16)
         return authKey
 
     def get_tag(self):
         with open('stored_cred.bin', 'rb') as storedCred:
-            storedCred.seek(48, 1) # Start reading after 32th byte
+            storedCred.seek(64, 1) # Start reading after 48th byte
             authKey = storedCred.read(16)
         return authKey
