@@ -32,6 +32,7 @@ class Account():
         passwordFileKey = self._enc.decrypt_ciphertext(dkey, self._enc.get_obsc_key(), self._enc.get_IV(), self._enc.get_tag())
 
         # Encypt passwordFileKey with newMaster
+        newMaster = newMaster.encode('utf-8')
         self._enc.encrypt_user_info(self._username, newMaster, passwordFileKey)
         del passwordFileKey
 
@@ -40,18 +41,23 @@ class Account():
         derivedKey, authKey = self._enc.derive_key_pass(password, self._enc.get_salt())
         return authKey == self._enc.get_authKey()
 
+    # Get the password file associated with the user
+    
+
     # Add account to passfile (dictionary type)
     # username = account username, not the password manager username
-    # passfile = {organisation: {username1: pass1, username2: pass2}, organisation2....}
-    def add_account(self, passfile, organisation, username, password):
-        passfile[organisation][username] = password
-        return passfile
+    # passdict = {organisation: {username1: pass1, username2: pass2}, organisation2....}
+    def add_account(self, organisation, username, password):
+        passdict = get_pass_dict()
+        passdict[organisation][username] = password
+        return passdict
 
     # Remove account frrom passfile
-    def remove_account(self, passfile, organisation, username):
-        del passfile[organisation][username]
-        if len(passfile[organisation]) == 0: del passfile[organisation]
-        return passfile
+    def remove_account(self, organisation, username):
+        passdict = get_pass_dict()
+        del passdict[organisation][username]
+        if len(passdict[organisation]) == 0: del passdict[organisation]
+        return passdict
 
     # Edit account username
     def edit_acc_username(self, passfile, organisation, oldUsername, newUsername):
