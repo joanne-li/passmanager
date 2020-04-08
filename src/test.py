@@ -14,3 +14,9 @@ print(acc.verify_login(b'passWord'))
 print(acc.verify_login(b'passW0rd'))
 print(acc.verify_login(b'passw ord'))
 print(acc.verify_login(b'passw 0rd'))
+
+# Change master password
+newMasterPassword = 'newpassword'
+acc.change_master_pass(b'password','newpassword')
+print(acc.verify_login(b'newpassword'))
+print(acc.verify_login(b'newpasSword'))
