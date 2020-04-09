@@ -4,6 +4,7 @@ Add, edit, modify user information and details
 Created 4/4/2020
 @author: joanne-li
 '''
+import json
 from Encrypt import Encrypt
 from Crypto.Random import get_random_bytes
 
@@ -11,6 +12,7 @@ class Account():
     def __init__(self, username):
         self._username = username
         self._enc = Encrypt()
+
 
     # Create a new user account
     def create_account(self, masterpassword):
@@ -20,10 +22,20 @@ class Account():
             with open('Error.txt', 'a+') as f:
                 f.write('Password invalid value' + datetime.today())
                 print('Password invalid value')
+
         # Unencrypted state; key to encrypt passfile
         fileKey = get_random_bytes(16)
         self._enc.encrypt_user_info(self._username, password, fileKey)
-        del fileKey # Make sure to delete this unencrypted key!
+
+        # Create passfile
+        passfile = self.create_pass_file()
+        self._enc.encrypt_pass(fileKey, passfile)
+
+        passfile = None # Make sure to delete this unencrypted key!
+        fileKey = None # Make sure to delete this unencrypted key!
+
+    def create_pass_file(self):
+        return json.dumps(dict())
 
 
     def change_master_pass(self, oldMaster, newMaster):
@@ -34,27 +46,25 @@ class Account():
         # Encypt passwordFileKey with newMaster
         newMaster = newMaster.encode('utf-8')
         self._enc.encrypt_user_info(self._username, newMaster, passwordFileKey)
-        del passwordFileKey
+        passwordFileKey = None
 
     # Verify login attempt or verify password to change master password
     def verify_login(self, password):
         derivedKey, authKey = self._enc.derive_key_pass(password, self._enc.get_salt())
         return authKey == self._enc.get_authKey()
 
-    # Get the password file associated with the user
-    
 
     # Add account to passfile (dictionary type)
     # username = account username, not the password manager username
     # passdict = {organisation: {username1: pass1, username2: pass2}, organisation2....}
-    def add_account(self, organisation, username, password):
-        passdict = get_pass_dict()
+    def add_account(self, organisation, masterpassword, username, password):
+        passdict = decrypt_passfile(masterpassword)
         passdict[organisation][username] = password
         return passdict
 
     # Remove account frrom passfile
     def remove_account(self, organisation, username):
-        passdict = get_pass_dict()
+        passdict = decrypt_passfile(masterpassword)
         del passdict[organisation][username]
         if len(passdict[organisation]) == 0: del passdict[organisation]
         return passdict
