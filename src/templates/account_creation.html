@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% block body %}
+<div>
+    <h2 class="ui header">
+      Create account
+      <div class="sub header">Create an account to securely store all your passwords.</div>
+    </h2>
+    <br>
+    <form class="ui form" method="POST">
+        <div class="field">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="username" required>
+        </div>
+        <div class="field">
+        <label>Master Password</label>
+        <input method='POST' type="password" name="password" placeholder="password" required>
+        </div>
+        <label>Confirm Master Password</label>
+        <input method='POST' type="password" name="password" placeholder="confirm password" required>
+        </div>
+        <br>
+        <button class="ui button" type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}

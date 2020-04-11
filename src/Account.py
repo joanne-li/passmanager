@@ -9,10 +9,8 @@ from Encrypt import Encrypt
 from Crypto.Random import get_random_bytes
 
 class Account():
-    def __init__(self, username):
-        self._username = username
+    def __init__(self):
         self._enc = Encrypt()
-
 
     # Create a new user account
     def create_account(self, masterpassword):
@@ -50,6 +48,7 @@ class Account():
 
     # Verify login attempt or verify password to change master password
     def verify_login(self, password):
+        password = password.encode('utf-8')
         derivedKey, authKey = self._enc.derive_key_pass(password, self._enc.get_salt())
         return authKey == self._enc.get_authKey()
 

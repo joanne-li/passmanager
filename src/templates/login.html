@@ -1,0 +1,34 @@
+{% extends 'index.html' %}
+{% block body %}
+<div>
+<h2 class="ui header">
+  Login
+  <div class="sub header">Login into password manager.</div>
+</h2>
+{% if loginError %}
+<div class="ui error message">
+  <i class="close icon"></i>
+  <div class="header">
+    Incorrect credentials, please try again
+  </div>
+  <ul class="list">
+    <li>Check if your username is correct</li>
+    <li>Check to see your master password is correct</li>
+  </ul>
+</div>
+{% endif %}
+<br>
+<form class="ui form" method="POST">
+    <div class="field">
+    <label>Username</label>
+    <input type="text" name="username" placeholder="username" required>
+    </div>
+    <div class="field">
+    <label>Master Password</label>
+    <input type="password" name="password" placeholder="password">
+    </div>
+    <br>
+    <button class="ui button" type="submit">Submit</button>
+</form>
+</div>
+{% endblock %}
