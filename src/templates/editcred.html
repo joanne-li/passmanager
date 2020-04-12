@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% block body %}
+<div class="ui container">
+    <div class="ui form">
+        {% if setting == 'changePass' %}
+        <h3>Change password for account {{username}} from {{organisation}}</h3>
+        <input value="{{password}}" type="password" id="password" disabled>
+        <button class="ui green button" onclick="toggler(this)" type="button">Show current password</button>
+        <form class="ui form" method="POST" action = "{{url_for('edit_cred', confirmchange=1,organisation=organisation,username=username,password=password)}}">
+          <div class="field">
+            <label>Enter new password</label>
+            <input type="password" name="new password" placeholder="Enter new password">
+          </div>
+          <div class="field">
+            <label>Enter new password</label>
+            <input type="password" name="confirm new password" placeholder="Confirm new password">
+          </div>
+          <button class="ui button" type="submit">Submit</button>
+        </form>
+        {% elif setting == 'changeUsername'%}
+        <h3>Change username for account {{username}} from {{organisation}}</h3>
+        <form class="ui form" method="POST"action = "{{url_for('edit_cred', confirmchange=1,organisation=organisation,username=username,password=password)}}">
+          <div class="field">
+            <label>Enter new username</label>
+            <input type="text" name="new username" placeholder="Enter new username">
+          </div>
+          <div class="field">
+            <label>Enter new username</label>
+            <input type="text" name="confirm new username" placeholder="Confirm new username">
+          </div>
+          <button class="ui button" type="submit">Submit</button>
+        </form>
+        {% endif %}
+    </div>
+    <script>
+        // Acknowledgement: Function for toggling on and off passwords
+        // https://stackoverflow.com/questions/43390966/javascript-show-hide-toggle-button-for-password-field
+        function toggler(e) {
+            if( e.innerHTML == 'Show' ) {
+                e.innerHTML = 'Hide'
+                document.getElementById('password').type='teext'
+            } else {
+                e.innerHTML = 'Show'
+                document.getElementById('password').type='password'
+            }
+    }
+    </script>
+</div>
+{% endblock %}
