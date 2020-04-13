@@ -1,9 +1,17 @@
 {% extends 'index.html' %}
 {% block body %}
 <div>
+    <div>
     <h2 class="ui header">
       Create account
       <div class="sub header">Create an account to securely store all your passwords.</div>
+      <ul class="ui list">
+          <li>A good password is long and random. Throw in a mix of characters to make it strong.</li>
+          <li>Do not use a password you have used for another website or application.</li>
+          <li>Avoid using common phrases like 'password' or 'password123' or even ordinary words<li>
+              <ul>You can try thinking of a sentence or phrase that only you would remember, with some misspellings and random characters added</ul>
+          <li>This password will be the key to all your other passwords. Make it good.</li>
+      </ul>
     </h2>
     <br>
     <form class="ui form" method="POST">
@@ -13,13 +21,24 @@
         </div>
         <div class="field">
         <label>Master Password</label>
-        <input method='POST' type="password" name="password" placeholder="password" required>
+        <input method='POST' id="password" type="password" name="password" placeholder="password" required>
         </div>
         <label>Confirm Master Password</label>
-        <input method='POST' type="password" name="password" placeholder="confirm password" required>
-        </div>
+        <input method='POST' id="confirm password" type="password" name="password" placeholder="confirm password" required>
         <br>
         <button class="ui button" type="submit">Submit</button>
     </form>
+    <script>
+        function validate_password() {
+            passval = document.getElementById("confirm password").value
+            if(document.getElementById("password").value ==
+            passval && passval.length > 10) {
+                document.getElementById('submit').disabled = false;
+            } else {
+                document.getElementById('submit').disabled = true;
+            }
+        }
+    </script>
+    </div>
 </div>
 {% endblock %}

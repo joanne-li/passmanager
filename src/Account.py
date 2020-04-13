@@ -5,6 +5,7 @@ Created 4/4/2020
 @author: joanne-li
 '''
 import json
+import os
 from Encrypt import Encrypt
 from Crypto.Random import get_random_bytes
 
@@ -103,6 +104,15 @@ class Account():
         print(username)
         passdict[organisation][username] = password
         self.set_passdict(passdict)
+
+    # Remove account
+    def remove_account(self):
+        os.remove('passfile.bin')
+        os.remove('stored_cred.bin')
+        self._username = None
+        self._enc = None
+        self._masterpassword = None
+        self._passdict = None
 
     #===========================================================================
     # Helper methods
