@@ -62,7 +62,8 @@ class Account():
         passwordFileKey = self._enc.decrypt_ciphertext(dkey, self._enc.get_obsc_key(), self._enc.get_IV(), self._enc.get_tag())
 
         # Encypt passwordFileKey with newMaster
-        self._enc.encrypt_user_info(self._username, newMaster, passwordFileKey)
+        username = self.to_byte_string(self._username)
+        self._enc.encrypt_user_info(username, newMaster, passwordFileKey)
         self._masterpassword = newMaster
         passwordFileKey = None
 

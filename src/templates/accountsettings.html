@@ -1,0 +1,65 @@
+{% extends 'index.html' %}
+{% block body %}
+<div>
+<h2>Account Settings</h2>
+<br>
+<form class="ui form" method="POST">
+    <h3>Change master password</h3>
+    <p>Make sure your new master password is strong (at least 10 characters). The longer the password, the better. </p>
+    <p>Try mixing different number, letters and symbols.</p>
+    <p>Write it down on a piece of paper and store this is a secure place until you remember it.</p>
+    <div class="field">
+    <label>Enter current master password</label>
+    <input type="password" name="current password" placeholder="Enter current master password">
+    </div>
+    <div class="field">
+    <label>Enter new master password</label>
+    <input type="password" id= "new password" name="new password" placeholder="Enter new master password" onchange="validate_password()">
+    </div>
+    <div class="field">
+    <label>Confirm new master password</label>
+    <input type="password" id="confirm new password" name="confirm new password" placeholder="Confirm new master password" onchange="validate_password()">
+    </div>
+    <br>
+    <button class="ui button" type="submit">Change master password</button>
+</form>
+{% if loginError %}
+<div class="ui error message">
+  <i class="close icon"></i>
+  <div class="header">
+    Incorrect credentials, please try again
+  </div>
+  <ul class="list">
+    <li>Check to see your master password is correct</li>
+  </ul>
+</div>
+{% endif %}
+<div class="ui divider"></div>
+<div>
+    <h3>Delete account</h3>
+    <div class="ui warning message">
+      <i class="close icon"></i>
+      <div class="header">
+        Warning: Deleting your account is permanent.
+      </div>
+      Your account and the credentials stored with the account will be deleted.
+    </div>
+    <button class="ui red button" type="submit"onclick="return confirm('Are you sure you want to delete your password manager account? This is an irreversible action')">Delete account</button>
+</div>
+<br>
+<br>
+<br>
+
+<script>
+    function validate_password() {
+        passval = document.getElementById("confirm new password").value
+        if(document.getElementById("new password").value ==
+        passval && passval.length > 10) {
+            document.getElementById('submit').disabled = false;
+        } else {
+            document.getElementById('submit').disabled = true;
+        }
+    }
+</script>
+</div>
+{% endblock %}
