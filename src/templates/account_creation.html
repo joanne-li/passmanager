@@ -5,14 +5,14 @@
     <h2 class="ui header">
       Create account
       <div class="sub header">Create an account to securely store all your passwords.</div>
-      <ul class="ui list">
-          <li>A good password is long and random. Throw in a mix of characters to make it strong.</li>
-          <li>Do not use a password you have used for another website or application.</li>
-          <li>Avoid using common phrases like 'password' or 'password123' or even ordinary words<li>
-              <ul>You can try thinking of a sentence or phrase that only you would remember, with some misspellings and random characters added</ul>
-          <li>This password will be the key to all your other passwords. Make it good.</li>
-      </ul>
     </h2>
+    <ul class="ui list">
+        <li>A good password is long and random. Throw in a mix of characters to make it strong.</li>
+        <li>Do not use a password you have used for another website or application.</li>
+        <li>Avoid using common phrases like 'password' or 'password123' or even ordinary words.</li>
+        <li>You can try thinking of a sentence or phrase that only you would remember, with some misspellings and random characters added.</li>
+        <li>This password will be the key to all your other passwords. Make it good.</li>
+    </ul>
     <br>
     <form class="ui form" method="POST">
         <div class="field">
@@ -21,12 +21,13 @@
         </div>
         <div class="field">
         <label>Master Password</label>
-        <input method='POST' id="password" type="password" name="password" placeholder="password" required>
+        <input id="password" type="password" name="password" placeholder="password" required onchange="validate_password()">
         </div>
         <label>Confirm Master Password</label>
-        <input method='POST' id="confirm password" type="password" name="password" placeholder="confirm password" required>
+        <input id="confirm password" type="password" name="password" placeholder="confirm password" required onchange="validate_password()">
         <br>
-        <button class="ui button" type="submit">Submit</button>
+        <br>
+        <button id= "submit"class="ui button" type="submit">Submit</button>
     </form>
     <script>
         function validate_password() {

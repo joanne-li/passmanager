@@ -34,14 +34,11 @@ class Account():
         self._enc.encrypt_user_info(self.to_byte_string(self._username), password, fileKey)
 
         # Create passfile
-        passfile = json.dumps(self.create_pass_file())
-        passfile = self.to_byte_string(passfile)
-        self._enc.encrypt_pass(fileKey, passfile)
-
+        # passfile = json.dumps(self._passdict)
+        # passfile = self.to_byte_string(passfile)
+        self._enc.encrypt_pass(fileKey, self._passdict)
         fileKey = None # Make sure to delete this unencrypted key!
 
-    def create_pass_file(self):
-        return dict()
 
     # Get unencrypted password file dictionary
     def get_passfile(self):
@@ -105,8 +102,17 @@ class Account():
         passdict[organisation][username] = password
         self.set_passdict(passdict)
 
+    # Check if given password has already been used for another account
+    def existing_pass(self, addPass):
+        passdict = self._passdict
+        for organisation, orgdict in passdict.items():
+            for username, password in orgdict.items():
+                if addPass == password:
+                    return True
+        return False
     # Remove account
-    def remove_account(self):
+    def remove_passman_account(self):
+        print('in remove function')
         os.remove('passfile.bin')
         os.remove('stored_cred.bin')
         self._username = None

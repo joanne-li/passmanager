@@ -24,6 +24,17 @@
             <button id= "submit" class="ui green button" type="submit">Add account</button>
         </form>
     </div>
+    {% if existingpass %}
+    <div class="ui error message">
+      <i class="close icon"></i>
+      <div class="header">
+        You have used this password for another account
+      </div>
+      <ul class="list">
+        <li>Please use a different password for each account</li>
+      </ul>
+    </div>
+    {% endif %}
     <script>
         function validate_password() {
             passval = document.getElementById("confirm password").value

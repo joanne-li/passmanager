@@ -36,6 +36,17 @@
         </form>
         {% endif %}
     </div>
+    {% if existingpass %}
+    <div class="ui error message">
+      <i class="close icon"></i>
+      <div class="header">
+        You have used this password for another account
+      </div>
+      <ul class="list">
+        <li>Please use a different password for each account</li>
+      </ul>
+    </div>
+    {% endif %}
     <script>
         // Acknowledgement: Function for toggling on and off passwords
         // https://stackoverflow.com/questions/43390966/javascript-show-hide-toggle-button-for-password-field

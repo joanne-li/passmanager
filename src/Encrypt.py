@@ -8,6 +8,7 @@ https://pycryptodome.readthedocs.io/en/latest/src/examples.html
 NOTE: Change line 210 of /hash/CMAC.py file partial --> bytes()
 '''
 import hashlib
+import os
 import json
 from datetime import datetime
 from Crypto.Cipher import AES # https://pycryptodome.readthedocs.io/en/latest/src/cipher/aes.html
@@ -90,6 +91,9 @@ class Encrypt():
 
     # Get passfile
     def decrypt_passfile(self, masterpassword):
+        # TODO find better implementation to check file exists
+        if not os.path.exists('passfile.bin'): return dict()
+
         dkey, authKey = self.derive_key_pass(masterpassword, self.get_salt())
         if authKey == self.get_authKey():
             passwordFileKey = self.decrypt_ciphertext(dkey, self.get_obsc_key(), self.get_IV(), self.get_tag())
@@ -104,7 +108,10 @@ class Encrypt():
         return passFile
 
     def passfile_dict(self, passString):
-        return json.loads(passString)
+        res = json.loads(passString)
+        # res = json.loads(res)
+        return res
+        # return json.loads(passString)
 
     # ==========================================================================
     # Credential operations

@@ -10,9 +10,6 @@ import json
 
 
 
-
-
-
 # acc = Account('joanne')
 # acc.create_account('sample')
 # print(acc._enc.verify_login('joanne','sample'))
