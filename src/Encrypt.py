@@ -61,8 +61,9 @@ class Encrypt():
 
 
     # filekey encrypts the passfile
-    # passfile: unencrypted JSON file
+    # passfile: unencrypted python dictionary
     def encrypt_pass(self, filekey, passfile):
+        passfile = json.dumps(passfile).encode('utf-8')
         IV = get_random_bytes(16)
         cipherObj = AES.new(filekey, AES.MODE_EAX, nonce=IV)
         obscPass, verifyTag = cipherObj.encrypt_and_digest(passfile)

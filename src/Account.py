@@ -9,10 +9,11 @@ from Encrypt import Encrypt
 from Crypto.Random import get_random_bytes
 
 class Account():
-    def __init__(self, username):
+    def __init__(self, username, password):
         self._username = username
         self._enc = Encrypt()
-        self._passfile = self.create_pass_file()
+        self._masterpassword = self.to_byte_string(password)
+        self._passdict = self.get_passfile()
 
     @property
     def username(self):
@@ -32,7 +33,7 @@ class Account():
         self._enc.encrypt_user_info(self.to_byte_string(self._username), password, fileKey)
 
         # Create passfile
-        passfile = json.dumps(self._passfile)
+        passfile = json.dumps(self.create_pass_file())
         passfile = self.to_byte_string(passfile)
         self._enc.encrypt_pass(fileKey, passfile)
 
@@ -45,17 +46,19 @@ class Account():
     def get_passfile(self):
         return self._enc.decrypt_passfile(self._masterpassword)
 
-    def set_passfile(self, passfiledict):
-        self._passfile = passfiledict
+    def set_passdict(self, passfiledict):
+        self._passdict = passfiledict
+
+    def get_passdict(self):
+        return self._passdict
 
     def set_masterpassword(self, password):
         self._masterpassword = self.to_byte_string(password)
 
-    def change_master_pass(self, oldMaster, newMaster):
-        oldMaster = self.to_byte_string(oldMaster)
+    def change_master_pass(self, newMaster):
         newMaster = self.to_byte_string(newMaster)
         # Decrypt passwordFileKey
-        dkey, authkey = self._enc.derive_key_pass(oldMaster, self._enc.get_salt())
+        dkey, authkey = self._enc.derive_key_pass(self._masterpassword, self._enc.get_salt())
         passwordFileKey = self._enc.decrypt_ciphertext(dkey, self._enc.get_obsc_key(), self._enc.get_IV(), self._enc.get_tag())
 
         # Encypt passwordFileKey with newMaster
@@ -69,7 +72,7 @@ class Account():
     # username = account username, not the password manager username
     # passdict = {organisation: {username1: pass1, username2: pass2}, organisation2....}
     def add_account(self, organisation, username, password):
-        passdict = self._passfile
+        passdict = self._passdict
         if passdict.get(organisation) is None:
             passdict[organisation] = {}
         passdict[organisation][username] = password
@@ -77,24 +80,27 @@ class Account():
 
     # Remove account frrom passfile
     def remove_account(self, organisation, username):
-        passdict = self._passfile
+        passdict = self._passdict
         del passdict[organisation][username]
         if len(passdict[organisation]) == 0: del passdict[organisation]
-        return passdict
+        self.set_passdict(passdict)
 
     # Edit account username
     def edit_acc_username(self, organisation, oldUsername, newUsername):
-        passdict = self._passfile
+        passdict = self._passdict
         password = passdict[organisation][oldUsername]
         del passdict[organisation][oldUsername]
         passdict[organisation][newUsername] = password
-        return passdict
+        self.set_passdict(passdict)
 
     # Edit account password
     def edit_acc_password(self, organisation, username, password):
-        passdict = self._passfile
+        passdict = self._passdict
+        print(passdict)
+        print(organisation)
+        print(username)
         passdict[organisation][username] = password
-        return passdict
+        self.set_passdict(passdict)
 
     #===========================================================================
     # Helper methods

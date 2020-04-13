@@ -25,8 +25,8 @@ class LoggedUsers():
 
 
 class Login(UserMixin):
-    def __init__(self, username):
-        self._acc = Account(username)
+    def __init__(self, username, password):
+        self._acc = Account(username, password)
 
     @property
     def account(self):

@@ -5,8 +5,12 @@
         {% if setting == 'changePass' %}
         <h3>Change password for account {{username}} from {{organisation}}</h3>
         <input value="{{password}}" type="password" id="password" disabled>
+        <br>
+        <br>
         <button class="ui green button" onclick="toggler(this)" type="button">Show current password</button>
-        <form class="ui form" method="POST" action = "{{url_for('edit_cred', confirmchange=1,organisation=organisation,username=username,password=password)}}">
+        <br>
+        <br>
+        <form class="ui form" method="POST" action = "{{url_for('confirm_change', organisation=organisation,username=username,password=password)}}">
           <div class="field">
             <label>Enter new password</label>
             <input type="password" name="new password" placeholder="Enter new password">
@@ -19,7 +23,7 @@
         </form>
         {% elif setting == 'changeUsername'%}
         <h3>Change username for account {{username}} from {{organisation}}</h3>
-        <form class="ui form" method="POST"action = "{{url_for('edit_cred', confirmchange=1,organisation=organisation,username=username,password=password)}}">
+        <form class="ui form" method="POST"action = "{{url_for('confirm_change',organisation=organisation,username=username,password=password)}}">
           <div class="field">
             <label>Enter new username</label>
             <input type="text" name="new username" placeholder="Enter new username">
@@ -36,11 +40,11 @@
         // Acknowledgement: Function for toggling on and off passwords
         // https://stackoverflow.com/questions/43390966/javascript-show-hide-toggle-button-for-password-field
         function toggler(e) {
-            if( e.innerHTML == 'Show' ) {
+            if( e.innerHTML == 'Show current password' ) {
                 e.innerHTML = 'Hide'
-                document.getElementById('password').type='teext'
+                document.getElementById('password').type='text'
             } else {
-                e.innerHTML = 'Show'
+                e.innerHTML = 'Show current password'
                 document.getElementById('password').type='password'
             }
     }
