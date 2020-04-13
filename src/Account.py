@@ -76,7 +76,8 @@ class Account():
         if passdict.get(organisation) is None:
             passdict[organisation] = {}
         passdict[organisation][username] = password
-        return passdict
+        print(passdict)
+        self.set_passdict(passdict)
 
     # Remove account frrom passfile
     def remove_account(self, organisation, username):

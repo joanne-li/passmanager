@@ -10,7 +10,7 @@
         <button class="ui green button" onclick="toggler(this)" type="button">Show current password</button>
         <br>
         <br>
-        <form class="ui form" method="POST" action = "{{url_for('confirm_change', organisation=organisation,username=username,password=password)}}">
+        <form class="ui form" method="POST" action = "{{url_for('confirm_change', organisation=organisation,username=username)}}">
           <div class="field">
             <label>Enter new password</label>
             <input type="password" id= "new password" name="new password" placeholder="Enter new password" onchange="validate_password()">
@@ -23,7 +23,7 @@
         </form>
         {% elif setting == 'changeUsername'%}
         <h3>Change username for account {{username}} from {{organisation}}</h3>
-        <form class="ui form" method="POST"action = "{{url_for('confirm_change',organisation=organisation,username=username,password=password)}}">
+        <form class="ui form" method="POST"action = "{{url_for('confirm_change',organisation=organisation,username=username)}}">
           <div class="field">
             <label>Enter new username</label>
             <input type="text" id="new username" name="new username" placeholder="Enter new username" onchange="validate_usernamee()">
@@ -51,7 +51,7 @@
         function validate_password() {
             passval = document.getElementById("confirm new password").value
             if(document.getElementById("new password").value ==
-            passval && passval.length > 10) {
+            passval && passval.length > 0) {
                 document.getElementById('submit').disabled = false;
             } else {
                 document.getElementById('submit').disabled = true;
@@ -61,7 +61,7 @@
             usernameval = document.getElementById("confirm new username").value
             console.log(usernameval.length)
             if(document.getElementById("new username").value ==
-            usernameval && usernameval.length > 10) {
+            usernameval && usernameval.length > 0) {
                 document.getElementById('submit').disabled = false;
             } else {
                 document.getElementById('submit').disabled = true;

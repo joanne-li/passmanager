@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% block body %}
+<div class="ui container">
+    <div>
+        <h3>Add account to password manager</h3>
+        <form class= "ui form" method="POST"action="{{url_for('add_account')}}" >
+            <div class="field">
+            <label>Organisation</label>
+            <input type="text" id="organisation" name="organisation" placeholder="organisation" required>
+            </div>
+            <div class="field">
+            <label>Username</label>
+            <input type="text" id="username" name="username" placeholder="username" required>
+            </div>
+            <div class="field">
+            <label>Password</label>
+            <input type="password" id="password" name="password" placeholder="password"required onchange="validate_password()">
+            </div>
+            <div class="field">
+              <label>Confirm password</label>
+              <input type="password" id="confirm password" name="confirm password" placeholder="confirm password" required onchange="validate_password()">
+            </div>
+            <br>
+            <button id= "submit" class="ui green button" type="submit">Add account</button>
+        </form>
+    </div>
+    <script>
+        function validate_password() {
+            passval = document.getElementById("confirm password").value
+            if(document.getElementById("password").value ==
+            passval && passval.length > 0) {
+                document.getElementById('submit').disabled = false;
+            } else {
+                document.getElementById('submit').disabled = true;
+            }
+        }
+    </script>
+</div>
+{% endblock %}
