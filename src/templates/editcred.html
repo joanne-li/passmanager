@@ -13,26 +13,26 @@
         <form class="ui form" method="POST" action = "{{url_for('confirm_change', organisation=organisation,username=username,password=password)}}">
           <div class="field">
             <label>Enter new password</label>
-            <input type="password" name="new password" placeholder="Enter new password">
+            <input type="password" id= "new password" name="new password" placeholder="Enter new password" onchange="validate_password()">
           </div>
           <div class="field">
-            <label>Enter new password</label>
-            <input type="password" name="confirm new password" placeholder="Confirm new password">
+            <label>Confirm new password</label>
+            <input type="password" id= "confirm new password" name="confirm new password" placeholder="Confirm new password" onchange="validate_password()">
           </div>
-          <button class="ui button" type="submit">Submit</button>
+          <button class="ui button" type="submit" id="submit">Submit</button>
         </form>
         {% elif setting == 'changeUsername'%}
         <h3>Change username for account {{username}} from {{organisation}}</h3>
         <form class="ui form" method="POST"action = "{{url_for('confirm_change',organisation=organisation,username=username,password=password)}}">
           <div class="field">
             <label>Enter new username</label>
-            <input type="text" name="new username" placeholder="Enter new username">
+            <input type="text" id="new username" name="new username" placeholder="Enter new username" onchange="validate_usernamee()">
           </div>
           <div class="field">
-            <label>Enter new username</label>
-            <input type="text" name="confirm new username" placeholder="Confirm new username">
+            <label>Confirm new username</label>
+            <input type="text" id="confirm new username" name="confirm new username" placeholder="Confirm new username"onchange="validate_username()">
           </div>
-          <button class="ui button" type="submit">Submit</button>
+          <button class="ui button" type="submit" id="submit">Submit</button>
         </form>
         {% endif %}
     </div>
@@ -47,7 +47,29 @@
                 e.innerHTML = 'Show current password'
                 document.getElementById('password').type='password'
             }
-    }
+        }
+        function validate_password() {
+            passval = document.getElementById("confirm new password").value
+            if(document.getElementById("new password").value ==
+            passval && passval.length > 10) {
+                document.getElementById('submit').disabled = false;
+            } else {
+                document.getElementById('submit').disabled = true;
+            }
+        }
+        function validate_username() {
+            usernameval = document.getElementById("confirm new username").value
+            console.log(usernameval.length)
+            if(document.getElementById("new username").value ==
+            usernameval && usernameval.length > 10) {
+                document.getElementById('submit').disabled = false;
+            } else {
+                document.getElementById('submit').disabled = true;
+            }
+        }
+        // function matching() {
+        //
+        // }
     </script>
 </div>
 {% endblock %}
