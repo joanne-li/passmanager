@@ -30,6 +30,8 @@
         <button id= "submit"class="ui button" type="submit">Submit</button>
     </form>
     <script>
+        // Acknowledgement: Checking if passwords and usernames are the same
+        // https://stackoverflow.com/questions/21727317/how-to-check-confirm-password-field-in-form-without-reloading-page
         function validate_password() {
             passval = document.getElementById("confirm password").value
             if(document.getElementById("password").value ==
