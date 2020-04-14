@@ -13,24 +13,24 @@
         <form class="ui form" method="POST" action = "{{url_for('confirm_change', organisation=organisation,username=username)}}">
           <div class="field">
             <label>Enter new password</label>
-            <input type="password" id= "new password" name="new password" placeholder="Enter new password" onchange="validate_password()">
+            <input type="password" id= "new password" name="new password" placeholder="Enter new password" onchange="validate_password()" required>
           </div>
           <div class="field">
             <label>Confirm new password</label>
-            <input type="password" id= "confirm new password" name="confirm new password" placeholder="Confirm new password" onchange="validate_password()">
+            <input type="password" id= "confirm new password" name="confirm new password" placeholder="Confirm new password" onchange="validate_password()" required>
           </div>
           <button class="ui button" type="submit" id="submit">Submit</button>
         </form>
         {% elif setting == 'changeUsername'%}
         <h3>Change username for account {{username}} from {{organisation}}</h3>
-        <form class="ui form" method="POST"action = "{{url_for('confirm_change',organisation=organisation,username=username)}}">
+        <form class="ui form" method="POST"action = "{{url_for('confirm_change',organisation=organisation,username=username )}}">
           <div class="field">
             <label>Enter new username</label>
-            <input type="text" id="new username" name="new username" placeholder="Enter new username" onchange="validate_usernamee()">
+            <input type="text" id="new username" name="new username" placeholder="Enter new username" onchange="validate_usernamee()"required>
           </div>
           <div class="field">
             <label>Confirm new username</label>
-            <input type="text" id="confirm new username" name="confirm new username" placeholder="Confirm new username"onchange="validate_username()">
+            <input type="text" id="confirm new username" name="confirm new username" placeholder="Confirm new username"onchange="validate_username()"required>
           </div>
           <button class="ui button" type="submit" id="submit">Submit</button>
         </form>
