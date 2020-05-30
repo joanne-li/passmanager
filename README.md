@@ -5,7 +5,7 @@ This project was completed for a university security course in Term 1 2020. It i
 
 [Full Video Presentation/Demo](https://www.youtube.com/watch?v=t5jBWQpcXDs)
 
-![Gif of password manager](https://github.com/joanne-li/passmanager/passman.gif)
+![Gif of password manager](https://github.com/joanne-li/passmanager/blob/master/passman.gif)
 
 ### Demo it yourself
 
